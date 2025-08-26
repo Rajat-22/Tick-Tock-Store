@@ -1,12 +1,12 @@
 <template>
       <div>
     <div
-      class="bg-success w-100 position-relative overflow-hidden mb-4 py-5 d-flex align-items-center"
+      class="bg-success w-100 position-relative overflow-hidden mb-4 py-2 d-flex align-items-center"
       style="
         background-image: url('');
         background-size: cover;
         background-position: center;
-        min-height: 400px;
+        min-height: 300px;
       "
     >
       <div
@@ -17,10 +17,12 @@
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xl-7">
             <h1 class="display-4 fw-bold text-white mb-4">
-              Your One-Stop Stone Shop
-              <br class="d-none d-lg-block" />
-              Premium Granite & Quartz for Every Style!
-            </h1>
+              Timeless Style, Perfectly Crafted.
+               </h1>
+              <!-- <br class="d-none d-lg-block" /> -->
+              <h4 class="display-8 text-white fst-italic">
+              "Discover watches that blend elegance, precision, and durability. From classic designs to modern smartwatches — find your perfect timepiece today." 
+              </h4>
             <div
               class="input-group mt-3 mx-auto shadow-lg rounded-4"
               style="max-width: 700px"
