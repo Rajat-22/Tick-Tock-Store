@@ -22,12 +22,12 @@
           </div>
           <div class="mt-3">
             <span class="text-muted">Price</span>
-            <input type="number" class="form-control" v-model="productObj.price" />
+            <input type="number" class="form-control" v-model.number="productObj.price" />
           </div>
 
           <div class="mt-3">
             <span class="text-muted">Sale Price</span>
-            <input type="number" class="form-control" v-model="productObj.salePrice" />
+            <input type="number" class="form-control" v-model.number="productObj.salePrice" />
           </div>
           <div class="mt-3">
             <span class="text-muted">Tags (comma-seperated)</span>
@@ -39,7 +39,7 @@
             />
           </div>
           <div class="form-check form-switch pt-3">
-            <input class="form-check-input" type="checkbox" role="switch" />
+            <input class="form-check-input" type="checkbox" role="switch" v-model="productObj.isBestSeller" />
 
             <label class="form-check-label" for="bestseller">
               Bestseller
@@ -78,11 +78,16 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
+import { alerts } from '@/utility/alert';
+import  productService  from '../../services/productService'
+import { APP_ROUTE_NAMES } from '@/constants/routerName';
+// import router from '@/router/route';
+const { showSuccess, showError, showConfirm} = alerts()
 
-const route = useRoute()
+const router = useRouter()
 const loading = ref(false)
 const errorList = reactive([])
 
@@ -94,11 +99,17 @@ const productObj = reactive({
     tags: [],
     isBestSeller: false,
     category: '',
-    image: '',
+    image: 'https://placehold.co/600x400',
 })
 
+// onMounted(() =>{
+    // showSuccess('Product created successfully.')
+    // showError('Error occurs')
+    // showConfirm('Are you sure?')
+
+// })
+
 async function handleSubmit(){
-    console.log(productObj)
     try {
       loading.value = true  
       errorList.length = 0
@@ -112,17 +123,19 @@ async function handleSubmit(){
       if(productObj.category === ''){
         errorList.push('Please select a category.')
       }
-
-     if(!errorList.length){
+     
+     if(!errorList.length){   
       const productData = {
         ...productObj,
         price: Number(productObj.price),
-        salePrice: productObj.salePrice ? Number(productObj.salePrice): null,
-        tags: productObj.tags.split(',').map((tag) => tag.trim()),
-        bestSeller: Boolean(productObj.isBestSeller)
+        salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
+        tags: productObj.tags.length>0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
+        bestseller: Boolean(productObj.isBestSeller),
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+    //   await new Promise((resolve) => setTimeout(resolve, 2000))
+      await productService.createProduct(productData)
+      showSuccess('Product created successfully.')
+      router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST})
     }
     } catch (error) {
         
