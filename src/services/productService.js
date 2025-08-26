@@ -9,4 +9,9 @@ export default {
         const docRef = await addDoc(productCollection, productData)
         return { id: docRef.id, ...productData}
     },
+
+    async getProducts(){
+        const gProd = await getDocs(productCollection)
+        return gProd.docs.map((doc) => ({id:doc.oid, ...doc.data()}))
+    }
 }
