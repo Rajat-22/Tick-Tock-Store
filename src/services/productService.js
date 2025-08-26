@@ -12,6 +12,23 @@ export default {
 
     async getProducts(){
         const gProd = await getDocs(productCollection)
-        return gProd.docs.map((doc) => ({id:doc.oid, ...doc.data()}))
-    }
+        return gProd.docs.map((doc) => ({id:doc.id, ...doc.data()}))
+    },
+
+    async getProductById(id){
+        const docRef = doc(db, 'products', id);
+        const gProd = await getDoc(docRef)
+        return {id: gProd.id, ...gProd.data()}
+    },
+
+    async updateProduct(id, productData){
+        const docRef = doc(db, 'products', id);
+         await updateDoc(docRef, productData)
+        return {id, ...productData}
+    },
+
+    async deleteProduct(id){
+        const docRef = doc(db, 'products', id);
+       await deleteDoc(docRef)
+    },
 }
