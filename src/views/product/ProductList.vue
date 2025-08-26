@@ -13,10 +13,10 @@
           <h1 class="text-secondary">Products</h1>
           <p class="mb-0 text-muted small">Manage your product listings</p>
         </div>
-        <a href="#" class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2">
+        <router-link :to="APP_ROUTE_NAMES.PRODUCT_CREATE" class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2">
           <i class="bi bi-plus-square"></i> &nbsp;
           <span>Add Product</span>
-        </a>
+        </router-link>
       </div>
 
       <div class="card-body p-3">
@@ -77,16 +77,18 @@
                   <span
                     class="badge bg-warning bg-opacity-10 text-warning small"
                   v-if="product.isBestSeller">
-                    {{ product.isBestSeller }}
+                    Bestseller
                   </span>
-                  <span class="text-muted text-center">---</span>
+                  <span v-else class="text-muted text-center">---</span>
                 </td>
                 <td class="pe-3 text-end">
-                  <button class="btn btn-sm btn-outline-secondary m-2">
+                  <button 
+                  @click="router.push({name:APP_ROUTE_NAMES.PRODUCT_UPDATE, params:{id:product.id}})"
+                  class="btn btn-sm btn-outline-secondary m-2">
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger">
+                  <button class="btn btn-sm btn-outline-danger" @click="handleProductDelete(product.id)">
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -102,9 +104,14 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import  productService  from '../../services/productService'
+import { alerts } from '@/utility/alert';
+import { APP_ROUTE_NAMES } from '@/constants/routerName';
+import { useRouter } from 'vue-router';
 
+const { showSuccess, showError, showConfirm} = alerts()
 const products = ref([])
 const loading = ref(false)
+const router = useRouter()
 
 onMounted(() =>{
 fetchProducts()
@@ -120,5 +127,21 @@ const fetchProducts = async() => {
    finally{
     loading.value = false
    }
+}
+
+const handleProductDelete = async(productId) => {
+  try {
+    loading.value = true
+    const confirmResult = await showConfirm('Are you sure, you wan to delete this product?')
+    if(confirmResult.isConfirmed){
+      await productService.deleteProduct(productId);
+      await showSuccess('Product deleted successfully')
+      fetchProducts()
+    }
+  } catch (error) {
+    console.log(error)
+  }finally{
+loading.value = false
+  }
 }
 </script>

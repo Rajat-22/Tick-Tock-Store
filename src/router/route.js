@@ -51,6 +51,11 @@ const router = createRouter({
         component: ProductUpdate,
       },
       {
+        path : '/product-update/:id',
+        name: APP_ROUTE_NAMES.PRODUCT_UPDATE,
+        component: ProductUpdate,
+      },
+      {
         path : '/contact-us',
         name: APP_ROUTE_NAMES.CONTACT_US,
         component: ContactUs,

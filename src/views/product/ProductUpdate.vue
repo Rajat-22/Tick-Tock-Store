@@ -3,7 +3,7 @@
     <div class="row border p-4 my-5 rounded">
       <div class="col-9">
         <form v-on:submit.prevent="handleSubmit">
-          <div class="h2 text-center text-success">Create Product</div>
+          <div class="h2 text-center text-success">{{ productIdForUpdate ? "Update": "Create" }} Product</div>
           <hr />
           <div v-if="errorList.length>0" class="alert alert-danger pb-0">
             Please fix the following errors:
@@ -61,7 +61,7 @@
             <button class="btn btn-success m-2 w-25" :disabled="loading">
               <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>Submit
             </button>
-            <a href="/" class="btn btn-secondary m-2 w-25"> Cancel </a>
+            <router-link :to="{name:APP_ROUTE_NAMES.PRODUCT_LIST}" class="btn btn-secondary m-2 w-25"> Cancel </router-link>
           </div>
         </form>
       </div>
@@ -84,13 +84,13 @@ import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
 import { alerts } from '@/utility/alert';
 import  productService  from '../../services/productService'
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
-// import router from '@/router/route';
-const { showSuccess, showError, showConfirm} = alerts()
 
+const { showSuccess, showError, showConfirm} = alerts()
 const router = useRouter()
+const route = useRoute()
 const loading = ref(false)
 const errorList = reactive([])
-
+const productIdForUpdate = route.params.id
 const productObj = reactive({
     name: '',
     description: '',
@@ -102,12 +102,20 @@ const productObj = reactive({
     image: 'https://placehold.co/600x400',
 })
 
-// onMounted(() =>{
-    // showSuccess('Product created successfully.')
-    // showError('Error occurs')
-    // showConfirm('Are you sure?')
+onMounted(async () =>{
+   if(!productIdForUpdate) return
+   loading.value = true
 
-// })
+   try {
+    const product = await productService.getProductById(productIdForUpdate)
+    Object.assign(productObj, {...product, tags: product.tags.join(', ')})
+   } catch (error) {
+    console.log(error)
+   } finally{
+    loading.value = false
+   }
+
+})
 
 async function handleSubmit(){
     try {
@@ -133,8 +141,16 @@ async function handleSubmit(){
         bestseller: Boolean(productObj.isBestSeller),
       }
     //   await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    if(productIdForUpdate){
+      // if update the product
+        await productService.updateProduct(productIdForUpdate ,productData)
+      showSuccess('Product updated successfully.')
+    } else {
       await productService.createProduct(productData)
       showSuccess('Product created successfully.')
+    }
+
       router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST})
     }
     } catch (error) {
