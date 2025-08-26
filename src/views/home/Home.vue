@@ -25,7 +25,7 @@
               class="input-group mt-3 mx-auto shadow-lg rounded-4"
               style="max-width: 700px"
             >
-              <input
+              <input v-model="searchValue"
                 type="text"
                 class="form-control border-0 py-3 px-4 fs-5"
                 placeholder="Search your favorite watch..."
@@ -60,15 +60,15 @@
               data-bs-toggle="dropdown"
             >
               <i class="bi bi-sort-down"></i>
-              <span class="text-capitalize">SORT</span>
+              <span class="text-capitalize">{{ sortOption }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li>
-                <button
+              <li v-for="(sort, index) in SORT_OPTIONS" :key="index">
+                <button @click="sortOption = sort"
                   class="dropdown-item py-2 d-flex align-items-center gap-2"
                 >
                   <i class="bi"></i>
-                  <span class="text-capitalize"> SORT OPTIONS </span>
+                  <span class="text-capitalize"> {{ sort }} </span>
                 </button>
               </li>
             </ul>
@@ -90,12 +90,15 @@
 import { onMounted, ref, computed } from 'vue';
 import  productService  from '../../services/productService'
 import ProductCard from '@/components/product/ProductCard.vue';
-import { PRODUCT_CATEGORIES } from '@/constants/productConstant';
+import { PRODUCT_CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/productConstant';
+
 
 const products = ref([])
 const loading = ref(false)
 const selectedCategory = ref("ALL")
 const categoryList = ref(["ALL", ...PRODUCT_CATEGORIES])
+const searchValue = ref('')
+const sortOption = ref(SORT_OPTIONS[0])
 
 onMounted(() =>{
 fetchProducts()
@@ -118,6 +121,26 @@ const filteredProductList = computed(() =>{
     let tempArray = selectedCategory.value === 'ALL' ? [...products.value] 
                    : products.value.filter((item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase())
 
+    
+    if(searchValue.value){
+        tempArray = tempArray.filter((item) =>{
+           return item.name.toUpperCase().includes(searchValue.value.toUpperCase())
+        })
+    }
+
+    if(sortOption.value === SORT_NAME_A_Z){
+        tempArray.sort((a,b) => a.name.localeCompare(b.name))
+    }
+    if(sortOption.value === SORT_NAME_Z_A){
+        tempArray.sort((a,b) => b.name.localeCompare(a.name))
+    }
+    if(sortOption.value === SORT_PRICE_HIGH_LOW){
+        tempArray.sort((a,b) => b.price - a.price)
+    }
+    if(sortOption.value === SORT_PRICE_LOW_HIGH){
+        tempArray.sort((a,b) => a.price - b.price)
+    }
+    
     return tempArray
 })
 </script>
