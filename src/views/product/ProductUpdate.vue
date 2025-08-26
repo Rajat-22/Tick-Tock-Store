@@ -34,7 +34,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="e.g., modern, classic, luxury"
+              placeholder="e.g., analog, automatic, luxury"
               v-model="productObj.tags"
             />
           </div>

@@ -7,7 +7,7 @@
           class="card-img-top object-fit-cover"
           style="height: 200px"
         />
-        <div v-if="product.bestSeller"
+        <div v-if="product.bestseller"
           class="position-absolute top-0 start-0 m-2 px-2 py-1 bg-success text-white rounded-pill text-sm"
         >
           <i class="bi bi-star-fill me-1"></i>
@@ -20,7 +20,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="fw-bold me-2 fs-5 text-muted">
             <span class="text-success" :style="{textDecoration: product.salePrice ? 'line-through': 'none'}">
-               $$ {{  product.price }}
+               ₹ {{  product.price }}
             </span>
              <span v-if="product.salePrice" class="text-danger px-1"> SALE!</span>
             <!-- <span> $${{ product.salePrice }} </span> -->

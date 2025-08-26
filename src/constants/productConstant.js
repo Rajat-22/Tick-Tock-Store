@@ -1,4 +1,4 @@
-export const PRODUCT_CATEGORIES = ["Strap", "Chain", "Leather"];
+export const PRODUCT_CATEGORIES = ["Analog", "Digital", "Mechanical", "Automatic", "Smartwatches"];
 
 export const SORT_PRICE_LOW_HIGH = "PRICE LOW-HIGH";
 export const SORT_PRICE_HIGH_LOW = "PRICE HIGH-LOW";

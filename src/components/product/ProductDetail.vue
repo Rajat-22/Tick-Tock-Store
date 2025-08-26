@@ -20,7 +20,7 @@
 
             <div class="col-md-6">
               <h2 class="text-success">{{ product.name }}</h2>
-              <span class="badge text-bg-warning p-2" v-if="product.bestSeller">
+              <span class="badge text-bg-warning p-2" v-if="product.bestseller">
                 <i class="bi bi-star-fill"></i> Bestseller
               </span>
               <span class="badge text-bg-warning p-2 mx-2">
@@ -31,11 +31,10 @@
 
               <div class="h3">
                 <span class="text-success" :style="{textDecoration: product.salePrice ? 'line-through': 'none'}">
-                  $$ {{  product.price }}
-                  <span>/sqft</span>
+                  ₹ {{  product.price }}
                 </span>
                 <!--Add text-dcoration line through if product.saleprice is present-->
-                <span class="text-danger" v-if="product.salePrice"> $${{product.salePrice}}/sqft </span>
+                <span class="text-danger" v-if="product.salePrice"> ₹{{product.salePrice}} </span>
               </div>
 
               <div class="">
