@@ -61,8 +61,8 @@
                 </td>
                 <td>
                   <div class="d-flex flex-column">
-                    <span class="fw-semibold small">${{ product.price }}</span>
-                    <span class="text-danger small">${{ product.salePrice }} </span>
+                    <span class="fw-semibold small">₹{{ product.price }}</span>
+                    <span v-if="product.salePrice" class="text-danger small">₹{{ product.salePrice }} </span>
                   </div>
                 </td>
                 <td>

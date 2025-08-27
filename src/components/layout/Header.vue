@@ -35,15 +35,18 @@
         <li><button @click="themeStore.setTheme('dark')"class="dropdown-item"><i class="bi bi-moon-stars-fill"></i>&nbsp; Dark</button></li>
           </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="!authStore.isAuthenticated">
            <router-link class="nav-link active" aria-current="page"
            :to="{name: APP_ROUTE_NAMES.SIGN_IN}"
            >SignIn</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="!authStore.isAuthenticated">
            <router-link class="nav-link active" aria-current="page"
            :to="{name: APP_ROUTE_NAMES.SIGN_UP}"
            >SignUp</router-link>
+        </li>
+        <li class="nav-item" v-if="authStore.isAuthenticated">
+          <button class="nav-link">Sign Out</button>
         </li>
       </ul>
       
@@ -56,7 +59,9 @@
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
 import { useRouter } from 'vue-router';
 import { useThemeStore } from '@/store/themeStore';
+import { useAuthStore } from '@/store/authStore';
 
+const authStore = useAuthStore()
 const themeStore = useThemeStore()
 const router = useRouter()
 </script>

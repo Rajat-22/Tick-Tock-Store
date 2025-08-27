@@ -11,3 +11,6 @@ export const SORT_OPTIONS = [
   SORT_NAME_A_Z,
   SORT_NAME_Z_A,
 ];
+
+export const USER_ROLE = 'users';
+export const ADMIN_ROLE = 'admin';
