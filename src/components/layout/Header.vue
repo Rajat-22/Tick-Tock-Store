@@ -20,8 +20,8 @@
         </li>
         <li class="nav-item">
            <router-link class="nav-link active" aria-current="page"
-           :to="{name: APP_ROUTE_NAMES.PRODUCT_CREATE}"
-           >Add Product</router-link>
+           :to="{name: APP_ROUTE_NAMES.CONTACT_US}"
+           >Contact Us</router-link>
         </li>
       </ul>
 
@@ -46,7 +46,7 @@
            >SignUp</router-link>
         </li>
         <li class="nav-item" v-if="authStore.isAuthenticated">
-          <button class="nav-link">Sign Out</button>
+          <button @click="[authStore.signOutUser(), router.push({name: APP_ROUTE_NAMES.HOME})]" class="nav-link">Sign Out</button>
         </li>
       </ul>
       

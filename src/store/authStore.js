@@ -21,8 +21,7 @@ export const useAuthStore = defineStore('authStore', () => {
                 initialized.value = true
             }else {
                 user.value = null
-                user.role = null
-                error.value = null
+                role.value = null
             }
         })
     }
@@ -38,7 +37,7 @@ export const useAuthStore = defineStore('authStore', () => {
           }) 
            
             user.value = null
-            user.role = null
+            role.value = null
             error.value = null
         } catch (err) {
             error.value = err.message
@@ -63,10 +62,25 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
+    const signOutUser = async() => {
+        isLoading.value = true
+        try {
+            await signOut(auth)
+            user.value = null
+            role.value = null
+            error.value = null
+        } catch (err) {
+            error.value = err.message
+            throw err
+        } finally {
+            isLoading.value = false
+        }
+    }
+
     return { 
-        user, error,isLoading, role, 
+        user, error,isLoading, role, initialized, 
 
         isAdmin, isAuthenticated,
 
-        signUpUser, signInUser, initializeAuth}
+        signUpUser, signInUser, initializeAuth, signOutUser}
 })

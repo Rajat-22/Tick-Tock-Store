@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { APP_ROUTE_NAMES } from "@/constants/routerName";
+import { useAuthStore } from "@/store/authStore";
 
 import AccessDenied from "@/views/auth/AccessDenied.vue";
 import NotFound from "@/views/auth/NotFound.vue";
@@ -61,6 +62,14 @@ const router = createRouter({
         component: ContactUs,
       }
     ]
+})
+
+router.beforeEach(async(toString, from)=>{
+  const authStore = useAuthStore()
+
+  if(!authStore.initialized){
+    await authStore.initializeAuth()
+  }
 })
 
 export default router
