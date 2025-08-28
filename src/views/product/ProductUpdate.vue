@@ -54,12 +54,12 @@
           <div class="mb-3">
             <label class="form-label">Image</label>
             <div class="input-group">
-              <input type="file" class="form-control" />
+              <input type="file" class="form-control" @change="handleImageUpload" :disabled="isImageloading" />
             </div>
           </div>
           <div class="pt-3">
             <button class="btn btn-success m-2 w-25" :disabled="loading">
-              <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>Submit
+              <span v-if="loading || isImageloading" class="spinner-border spinner-border-sm me-2"></span>Submit
             </button>
             <router-link :to="{name:APP_ROUTE_NAMES.PRODUCT_LIST}" class="btn btn-secondary m-2 w-25"> Cancel </router-link>
           </div>
@@ -67,7 +67,7 @@
       </div>
       <div class="col-3">
         <img
-          :src="`https://placehold.co/600x400`"
+          :src="productObj.image ||`https://placehold.co/600x400`"
           class="img-fluid w-100 m-3 p-3 rounded"
           alt="Product
         preview"
@@ -84,11 +84,13 @@ import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
 import { alerts } from '@/utility/alert';
 import  productService  from '../../services/productService'
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
+import { uploadImageCloudinary } from '@/utility/cloudImage';
 
 const { showSuccess, showError, showConfirm} = alerts()
 const router = useRouter()
 const route = useRoute()
 const loading = ref(false)
+const isImageloading = ref(false)
 const errorList = reactive([])
 const productIdForUpdate = route.params.id
 const productObj = reactive({
@@ -158,6 +160,21 @@ async function handleSubmit(){
     } finally{
       loading.value = false
     }
+}
+
+async function handleImageUpload(event){
+  const file = event.target.files[0]
+  if(!file) return
+  try {
+    isImageloading.value = true
+    const imageUrl = await uploadImageCloudinary(file)
+    productObj.image = imageUrl
+  } catch (err) {
+    console.log(err)
+    throw err
+  } finally{
+    isImageloading.value = false
+  }
 }
 
 </script>
