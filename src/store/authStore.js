@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, reactive, computed } from "vue";
-import { db, auth } from "@/utility/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { db, auth, firebaseApp } from "@/utility/firebaseConfig";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import {  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { ADMIN_ROLE, USER_ROLE } from "@/constants/productConstant";
 
@@ -15,15 +15,25 @@ export const useAuthStore = defineStore('authStore', () => {
     const isAdmin = computed(()=> role.value === ADMIN_ROLE)
 
     const initializeAuth = async () => {
-        onAuthStateChanged(auth, async(userInFirebase) => {
+        return new Promise((resolve) =>{
+ onAuthStateChanged(auth, async(userInFirebase) => {
             if(userInFirebase){
                 user.value = userInFirebase
+                await fetchUSerRole(userInFirebase.uid)
                 initialized.value = true
             }else {
                 user.value = null
                 role.value = null
             }
+            resolve()
         })
+        })
+       
+    }
+
+    const fetchUSerRole = async(uid) => {
+      const userDoc = await getDoc(doc(db, 'users', uid));
+      role.value = userDoc.exists()? userDoc.data().role : ''
     }
 
     const signUpUser = async(email, password) => {
@@ -52,7 +62,6 @@ export const useAuthStore = defineStore('authStore', () => {
         try {
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
             user.value = userCredentials.user
-            user.role = USER_ROLE
             error.value = null
         } catch (err) {
             error.value = err.message
