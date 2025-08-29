@@ -1,16 +1,16 @@
 <template>
       <div>
     <div
-      class="bg-success w-100 position-relative overflow-hidden mb-4 py-2 d-flex align-items-center"
+      class="w-100 position-relative overflow-hidden mb-4 py-2 d-flex align-items-center"
       style="
         background-image: url('');
         background-size: cover;
         background-position: center;
-        min-height: 300px;
+        min-height: 320px;
       "
     >
       <div
-        class="position-absolute top-0 start-0 w-100 h-100 bg-success opacity-50"
+        class="position-absolute top-0 start-0 w-100 h-100 opacity-50"
       ></div>
 
       <div class="container-fluid position-relative z-1">
@@ -36,9 +36,13 @@
           </div>
         </div>
       </div>
+       <video autoplay muted loop playsinline class="bg-video">
+    <source src="/src/assets//vecteezy_time-lapse-of-clock-time-passing_34635599.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
     </div>
 
-    <div id="product-list" class="container">
+    <div id="product-list" class="container-lg">
       <h2 class="mb-5 text-center display-6">Discover Our Collection</h2>
 
       <div class="row g-3 mb-4 align-items-center">
@@ -146,3 +150,19 @@ const filteredProductList = computed(() =>{
     return tempArray
 })
 </script>
+
+<style scoped>
+#product-list {
+   /* background: linear-gradient(135deg, #d4fc79, #96e6a1);  */
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 50;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* ensures video covers area */
+  z-index: -1;        /* sends video behind content */
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-     <img src="../../assets/watch.jpg" style="width: 50px; height: 50px;" class="mx-3" alt="TickTock Store"></img>
+     <img src="../../assets/tick-tock.jpg" style="width: 120px; height: 50px;" class="mx-3" alt="TickTock Store"></img>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
