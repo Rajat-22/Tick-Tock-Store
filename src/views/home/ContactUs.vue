@@ -25,7 +25,7 @@
             <div class="card-body">
               <i class="fas fa-phone fa-3x text-primary mb-3"></i>
               <h5 class="card-title">Call Us</h5>
-              <p class="card-text">+1 (555) 123-4567<br />Monday-Friday: 9am-5pm</p>
+              <p class="card-text">+91-9873957498 <br />+91-9506046219<br />Monday-Friday: 9am-5pm</p>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="card-body">
               <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
               <h5 class="card-title">Email Us</h5>
-              <p class="card-text">info@company.com<br />support@company.com</p>
+              <p class="card-text">rajatsharma221098@gmail.com</p>
             </div>
           </div>
         </div>

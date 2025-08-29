@@ -5,7 +5,7 @@
         <img
           :src="product.image || `https://placehold.co/600x400`"
           class="card-img-top object-fit-cover"
-          style="height: 200px"
+          style="height: 300px"
         />
         <div v-if="product.bestseller"
           class="position-absolute top-0 start-0 m-2 px-2 py-1 bg-success text-white rounded-pill text-sm"
