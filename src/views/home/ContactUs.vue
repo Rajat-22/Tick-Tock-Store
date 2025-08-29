@@ -16,7 +16,7 @@
             <div class="card-body">
               <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
               <h5 class="card-title">Visit Us</h5>
-              <p class="card-text">123 Business Street<br />Suite 100<br />New York, NY 10001</p>
+              <p class="card-text">Krishna Ellite Homes<br />Tower B, 302<br />Greater Noida, India</p>
             </div>
           </div>
         </div>

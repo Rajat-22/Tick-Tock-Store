@@ -8,7 +8,8 @@
           style="height: 300px"
         />
         <div v-if="product.bestseller"
-          class="position-absolute top-0 start-0 m-2 px-2 py-1 bg-success text-white rounded-pill text-sm"
+          class="position-absolute top-0 start-0 m-2 px-2 py-1 text-white rounded-pill text-sm"
+          style="background-color: #7113b0;"
         >
           <i class="bi bi-star-fill me-1"></i>
           Bestseller
@@ -26,7 +27,7 @@
             <!-- <span> $${{ product.salePrice }} </span> -->
           </div>
           <button
-            class="btn btn-success fs-6 py-2 px-4 btn-sm"
+            class="btn btn-primary fs-6 py-2 px-4 btn-sm"
             data-bs-toggle="modal" :data-bs-target="`#productDetailModal-${product.id}`"
           >
             <i class="bi bi-card-list"></i> View Details

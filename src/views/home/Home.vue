@@ -20,7 +20,7 @@
               Timeless Style, Perfectly Crafted.
                </h1>
               <!-- <br class="d-none d-lg-block" /> -->
-              <h4 class="display-8 text-white fst-italic">
+              <h4 class="display-8 text-light fst-italic">
               "Discover watches that blend elegance, precision, and durability. From classic designs to modern smartwatches — find your perfect timepiece today." 
               </h4>
             <div
@@ -52,8 +52,8 @@
             v-for="(category, index) in categoryList" :key="index"
              class="btn px-4 py-2"
              :class="{
-                'btn-success text-white': category === selectedCategory,
-                'btn-outline-success': category !== selectedCategory
+                'btn-primary text-white': category === selectedCategory,
+                'btn-outline-primary': category !== selectedCategory
              }"
              >{{ category }}</button>
           </div>
@@ -61,7 +61,7 @@
         <div class="col-md-auto ms-md-auto">
           <div class="dropdown">
             <button
-              class="btn btn-outline-secondary d-flex align-items-center gap-2 px-4 py-2"
+              class="btn btn-outline-info d-flex align-items-center gap-2 px-4 py-2"
               type="button"
               data-bs-toggle="dropdown"
             >
