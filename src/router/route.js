@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { APP_ROUTE_NAMES } from "@/constants/routerName";
-import { useAuthStore } from "@/store/authStore";
+// import { useAuthStore } from "@/store/authStore";
+import { isAuthenticated, isAdmin } from "@/utility/auth";
 
 import AccessDenied from "@/views/auth/AccessDenied.vue";
 import NotFound from "@/views/auth/NotFound.vue";
@@ -45,19 +46,19 @@ const router = createRouter({
         path : '/product-list',
         name: APP_ROUTE_NAMES.PRODUCT_LIST,
         component: ProductList,
-        beforeEnter: [isAdmin]
+        beforeEnter: () => (isAdmin() ? true : { name: APP_ROUTE_NAMES.ACCESS_DENIED }),
       },
       {
         path : '/product-create',
         name: APP_ROUTE_NAMES.PRODUCT_CREATE,
         component: ProductUpdate,
-        beforeEnter: [isAdmin]
+        beforeEnter: () => (isAdmin() ? true : { name: APP_ROUTE_NAMES.ACCESS_DENIED }),
       },
       {
         path : '/product-update/:id',
         name: APP_ROUTE_NAMES.PRODUCT_UPDATE,
         component: ProductUpdate,
-        beforeEnter: [isAdmin]
+        beforeEnter: () => (isAdmin() ? true : { name: APP_ROUTE_NAMES.ACCESS_DENIED }),
       },
       {
         path : '/contact-us',
@@ -67,34 +68,19 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach(async(toString, from)=>{
-  const authStore = useAuthStore()
+// Global guard: redirect unauthenticated users from protected routes
+router.beforeEach((to, from, next) => {
+  const protectedRoutes = [
+    APP_ROUTE_NAMES.PRODUCT_CREATE,
+    APP_ROUTE_NAMES.PRODUCT_UPDATE,
+    APP_ROUTE_NAMES.PRODUCT_LIST,
+  ];
 
-  if(!authStore.initialized){
-    await authStore.initializeAuth()
+  if (protectedRoutes.includes(to.name) && !isAuthenticated()) {
+    return next({ name: APP_ROUTE_NAMES.SIGN_IN });
   }
-})
 
-function isAdmin(){
-  const authStore = useAuthStore()
-  if(authStore.isAuthenticated){
-    if(authStore.isAdmin){
-      return true
-    }else {
-      return { name: APP_ROUTE_NAMES.ACCESS_DENIED}
-    }
-  }else {
-    return { name: APP_ROUTE_NAMES.SIGN_IN }
-  }
-}
-
-function isAuthenticated(){
-  const authStore = useAuthStore()
-  if(authStore.isAuthenticated){
-    return true
-  }else {
-    return { name: APP_ROUTE_NAMES.SIGN_IN }
-  }
-}
+  next();
+});
 
 export default router
