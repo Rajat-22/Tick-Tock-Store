@@ -97,41 +97,36 @@
 
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-// import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // ✅ correct import for v4+
 
 export const useAuthStore = defineStore("authStore", () => {
-  // Token storage
   const token = ref(localStorage.getItem("token") || "");
 
-  const decodeToken = async (token) => {
-  const jwt_decode = (await import("jwt-decode")).default;
-  return jwt_decode(token);
-};
+  const decodeToken = (token) => {
+    try {
+      return jwtDecode(token);
+    } catch (err) {
+      console.error("Invalid token:", err);
+      return null;
+    }
+  };
 
-  // Reactive computed properties
   const isAuthenticated = computed(() => !!token.value);
 
-  const isAdmin = computed(async () => {
+  const isAdmin = computed(() => {
     if (!token.value) return false;
-    try {
-      const decoded = await decodeToken(token.value);
-      return decoded.role === "admin";
-    } catch {
-      return false;
-    }
+    const decoded = decodeToken(token.value);
+    return decoded?.role === "admin";
   });
 
-  // Set token after login/register
   const setToken = (newToken) => {
     token.value = newToken;
     localStorage.setItem("token", newToken);
   };
 
-  // Sign out
   const signOut = () => {
     token.value = "";
     localStorage.removeItem("token");
-    // router.push({ name: "SIGN_IN" });
   };
 
   return { token, isAuthenticated, isAdmin, setToken, signOut };
