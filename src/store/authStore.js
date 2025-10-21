@@ -97,7 +97,7 @@
 
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { jwtDecode } from "jwt-decode"; // ✅ correct import for v4+
+import { jwtDecode } from "jwt-decode";
 
 export const useAuthStore = defineStore("authStore", () => {
   const token = ref(localStorage.getItem("token") || "");
@@ -105,12 +105,12 @@ export const useAuthStore = defineStore("authStore", () => {
   const decodeToken = (token) => {
     try {
       return jwtDecode(token);
-    } catch (err) {
-      console.error("Invalid token:", err);
+    } catch {
       return null;
     }
   };
 
+  // Reactive computed properties
   const isAuthenticated = computed(() => !!token.value);
 
   const isAdmin = computed(() => {
@@ -119,15 +119,23 @@ export const useAuthStore = defineStore("authStore", () => {
     return decoded?.role === "admin";
   });
 
+  // Actions
   const setToken = (newToken) => {
     token.value = newToken;
     localStorage.setItem("token", newToken);
   };
 
-  const signOut = () => {
+  const signOutUser = () => {
     token.value = "";
     localStorage.removeItem("token");
   };
 
-  return { token, isAuthenticated, isAdmin, setToken, signOut };
+  return {
+    token,
+    isAuthenticated,
+    isAdmin,
+    setToken,
+    signOutUser,
+  };
 });
+
