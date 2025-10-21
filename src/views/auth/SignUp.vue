@@ -63,7 +63,8 @@ const handleSignUp = async() =>{
     error.value = ''
     const data = await registerUser(form.name, form.email, form.password);
     showSuccess('Account created successfully')
-    error.value = "Registration successful! Please login.";
+    router.push({name:APP_ROUTE_NAMES.HOME})
+    // error.value = "Registration successful! Please login.";
   } catch (err) {
     error.value = err.message || "Registration failed";
     showError(err.message)
