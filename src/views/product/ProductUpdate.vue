@@ -14,7 +14,7 @@
 
           <div class="mt-3">
             <span class="text-muted">Name</span>
-            <input type="text" class="form-control" v-model.trime="productObj.name" />
+            <input type="text" class="form-control" v-model.trim="productObj.name" />
           </div>
           <div class="mt-3">
             <span class="text-muted">Description</span>
