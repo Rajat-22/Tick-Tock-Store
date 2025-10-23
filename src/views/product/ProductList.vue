@@ -33,7 +33,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="product in products" :key="product.id">
+              <tr v-for="product in products" :key="product._id">
                 <td class="ps-3">
                   <div class="d-flex align-items-center">
                     <img
@@ -83,12 +83,12 @@
                 </td>
                 <td class="pe-3 text-end">
                   <button 
-                  @click="router.push({name:APP_ROUTE_NAMES.PRODUCT_UPDATE, params:{id:product.id}})"
+                  @click="router.push({name:APP_ROUTE_NAMES.PRODUCT_UPDATE, params:{id:product._id}})"
                   class="btn btn-sm btn-outline-secondary m-2">
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger" @click="handleProductDelete(product.id)">
+                  <button class="btn btn-sm btn-outline-danger" @click="handleProductDelete(product._id)">
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -104,6 +104,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import  productService  from '../../services/productService'
+import { getProducts, deleteProduct } from '@/apiEndpoints/apiEndpoints'
 import { alerts } from '@/utility/alert';
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
 import { useRouter } from 'vue-router';
@@ -120,7 +121,9 @@ fetchProducts()
 const fetchProducts = async() => {
    try{
     loading.value = true
-        products.value = await productService.getProducts()
+        // products.value = await productService.getProducts()
+        products.value = await getProducts()
+        console.log(products)
    }catch(err){
    console.log(err)
    }
@@ -134,7 +137,8 @@ const handleProductDelete = async(productId) => {
     loading.value = true
     const confirmResult = await showConfirm('Are you sure, you wan to delete this product?')
     if(confirmResult.isConfirmed){
-      await productService.deleteProduct(productId);
+      // await productService.deleteProduct(productId);
+      await deleteProduct(productId)
       await showSuccess('Product deleted successfully')
       fetchProducts()
     }
