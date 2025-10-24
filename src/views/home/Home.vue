@@ -95,6 +95,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import  productService  from '../../services/productService'
+import { getProducts } from '@/apiEndpoints/apiEndpoints'
 import ProductCard from '@/components/product/ProductCard.vue';
 import { PRODUCT_CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/productConstant';
 
@@ -113,8 +114,8 @@ fetchProducts()
 const fetchProducts = async() => {
    try{
     loading.value = true
-        products.value = await productService.getProducts()
-        // console.log(products.value)
+        products.value = await getProducts()
+        // console.log('product',products.value)
    }catch(err){
    console.log(err)
    }
