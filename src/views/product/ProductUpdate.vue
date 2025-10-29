@@ -83,6 +83,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
 import { alerts } from '@/utility/alert';
 import  productService  from '../../services/productService'
+import { getProductById, updateProduct, createProduct } from '@/apiEndpoints/apiEndpoints'
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
 import { uploadImageCloudinary } from '@/utility/cloudImage';
 
@@ -109,7 +110,8 @@ onMounted(async () =>{
    loading.value = true
 
    try {
-    const product = await productService.getProductById(productIdForUpdate)
+    // const product = await productService.getProductById(productIdForUpdate)
+    const product = await getProductById(productIdForUpdate)
     Object.assign(productObj, {...product, tags: product.tags.join(', ')})
    } catch (error) {
     console.log(error)
@@ -146,10 +148,10 @@ async function handleSubmit(){
 
     if(productIdForUpdate){
       // if update the product
-        await productService.updateProduct(productIdForUpdate ,productData)
+        await updateProduct(productIdForUpdate ,productData)
       showSuccess('Product updated successfully.')
     } else {
-      await productService.createProduct(productData)
+      await createProduct(productData)
       showSuccess('Product created successfully.')
     }
 
