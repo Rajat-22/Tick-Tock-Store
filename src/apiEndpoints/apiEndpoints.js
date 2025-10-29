@@ -63,7 +63,10 @@ export const getProducts = async () => {
 // Get single product by ID
 export const getProductById = async (id) => {
   try {
-    const { data } = await api.get(`${ENDPOINTS.PRODUCTS}/${id}`);
+     const authStore = useAuthStore();
+    const { data } = await api.get(`${ENDPOINTS.PRODUCTS}/${id}`, {
+  headers: { Authorization: `Bearer ${authStore.token}` }
+});
     return data;
   } catch (err) {
     throw err.response?.data || err;
@@ -88,7 +91,7 @@ export const createProduct = async (productData) => {
 export const updateProduct = async (id, productData) => {
   try {
     const authStore = useAuthStore();
-    const { data } = await api.put(`${ENDPOINTS.PRODUCTS}/${id}`, productData, {
+    const { data } = await api.put(`${ENDPOINTS.PRODUCTS}/update/${id}`, productData, {
       headers: { Authorization: `Bearer ${authStore.token}` },
     });
     return data;
