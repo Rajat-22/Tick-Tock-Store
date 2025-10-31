@@ -123,7 +123,6 @@ const fetchProducts = async() => {
     loading.value = true
         // products.value = await productService.getProducts()
         products.value = await getProducts()
-        // console.log(products)
    }catch(err){
    console.log(err)
    }

@@ -54,7 +54,7 @@
           <div class="mb-3">
             <label class="form-label">Image</label>
             <div class="input-group">
-              <input type="file" class="form-control" @change="handleImageUpload" :disabled="isImageloading" />
+              <input type="file" class="form-control" @change="handleImageUpload" />
             </div>
           </div>
           <div class="pt-3">
@@ -67,10 +67,9 @@
       </div>
       <div class="col-3">
         <img
-          :src="productObj.image ||`https://placehold.co/600x400`"
+          :src="productObj.imagePreview || productObj.image ||`https://placehold.co/600x400`"
           class="img-fluid w-100 m-3 p-3 rounded"
-          alt="Product
-        preview"
+          alt="Product preview"
         />
       </div>
     </div>
@@ -78,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, onBeforeUnmount  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
 import { alerts } from '@/utility/alert';
@@ -121,6 +120,12 @@ onMounted(async () =>{
 
 })
 
+onBeforeUnmount(() => {
+  if (productObj.imagePreview) {
+    URL.revokeObjectURL(productObj.imagePreview);
+  }
+});
+
 async function handleSubmit(){
     try {
       loading.value = true  
@@ -137,14 +142,29 @@ async function handleSubmit(){
       }
      
      if(!errorList.length){   
-      const productData = {
-        ...productObj,
-        price: Number(productObj.price),
-        salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
-        tags: productObj.tags.length>0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
-        bestseller: Boolean(productObj.isBestSeller),
-      }
+      // const productData = {
+      //   ...productObj,
+      //   price: Number(productObj.price),
+      //   salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
+      //   tags: productObj.tags.length>0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
+      //   bestseller: Boolean(productObj.isBestSeller),
+      // }
     //   await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    const productData = new FormData();
+
+      productData.append('name', productObj.name);
+      productData.append('description', productObj.description || '');
+      productData.append('price', Number(productObj.price));
+      productData.append('salePrice', productObj.salePrice ? Number(productObj.salePrice) : '');
+      productData.append('tags', productObj.tags || '');
+      productData.append('isBestSeller', productObj.isBestSeller ? 'true' : 'false');
+      productData.append('category', productObj.category);
+
+      // 👇 append the file if user uploaded one
+      if (productObj.image && productObj.image instanceof File) {
+        productData.append('image', productObj.image);
+      }
 
     if(productIdForUpdate){
       // if update the product
@@ -165,18 +185,27 @@ async function handleSubmit(){
 }
 
 async function handleImageUpload(event){
-  const file = event.target.files[0]
-  if(!file) return
-  try {
-    isImageloading.value = true
-    const imageUrl = await uploadImageCloudinary(file)
-    productObj.image = imageUrl
-  } catch (err) {
-    console.log(err)
-    throw err
-  } finally{
-    isImageloading.value = false
-  }
+  // const file = event.target.files[0]
+  // if(!file) return
+  // try {
+  //   isImageloading.value = true
+  //   const imageUrl = await uploadImageCloudinary(file)
+  //   productObj.image = imageUrl
+  // } catch (err) {
+  //   console.log(err)
+  //   throw err
+  // } finally{
+  //   isImageloading.value = false
+  // }
+
+  const file = event.target.files[0];
+  if (!file) return;
+  // Save the file for upload
+  productObj.image = file;
+
+  // Generate a temporary preview URL
+  const previewUrl = URL.createObjectURL(file);
+  productObj.imagePreview = previewUrl; // store for preview
 }
 
 </script>
