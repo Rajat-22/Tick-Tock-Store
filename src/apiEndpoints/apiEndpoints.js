@@ -2,8 +2,8 @@ import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 
 // Base URL for the API
-// const BASE_URL = "https://watch-store-3xeh.onrender.com/api";
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://watch-store-3xeh.onrender.com/api";
+// const BASE_URL = "http://localhost:5000/api";
 
 // Endpoints
 export const ENDPOINTS = {
@@ -78,7 +78,9 @@ export const createProduct = async (productData) => {
   try {
     const authStore = useAuthStore();
     const { data } = await api.post(ENDPOINTS.PRODUCTS, productData, {
-      headers: { Authorization: `Bearer ${authStore.token}` },
+      headers: { 
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${authStore.token}` },
     });
     console.log(data)
     return data;
@@ -92,7 +94,10 @@ export const updateProduct = async (id, productData) => {
   try {
     const authStore = useAuthStore();
     const { data } = await api.put(`${ENDPOINTS.PRODUCTS}/update/${id}`, productData, {
-      headers: { Authorization: `Bearer ${authStore.token}` },
+      headers: { 
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${authStore.token}` },
+
     });
     return data;
   } catch (err) {
