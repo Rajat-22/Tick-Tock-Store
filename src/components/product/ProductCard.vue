@@ -7,7 +7,7 @@
           class="card-img-top object-fit-cover"
           style="height: 300px"
         />
-        <div v-if="product.bestseller"
+        <div v-if="product.isBestSeller"
           class="position-absolute top-0 start-0 m-2 px-2 py-1 text-white rounded-pill text-sm"
           style="background-color: #7113b0;"
         >
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <ProductDetail :product="product"></ProductDetail>
+    <ProductDetail v-if="product.image" :product="product"></ProductDetail>
   </div>
     </template>
 

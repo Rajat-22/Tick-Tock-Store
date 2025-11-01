@@ -82,7 +82,6 @@ export const createProduct = async (productData) => {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${authStore.token}` },
     });
-    console.log(data)
     return data;
   } catch (err) {
     throw err.response?.data || err;

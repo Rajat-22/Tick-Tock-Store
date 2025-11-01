@@ -20,7 +20,7 @@
 
             <div class="col-md-6">
               <h2 class="text-success">{{ product.name }}</h2>
-              <span class="badge text-bg-warning p-2" v-if="product.bestseller">
+              <span class="badge text-bg-warning p-2" v-if="product.isBestSeller">
                 <i class="bi bi-star-fill"></i> Bestseller
               </span>
               <span class="badge text-bg-warning p-2 mx-2">
@@ -60,4 +60,5 @@
 const props = defineProps({
     product: Object,
 })
+
 </script>
