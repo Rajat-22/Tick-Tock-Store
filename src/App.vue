@@ -5,12 +5,14 @@
 
     <!-- Main Content Area -->
     <main class="flex-grow-1">
-      <div class="container py-4">
-        <transition name="page" mode="out-in">
-          <RouterView />
-        </transition>
-      </div>
-    </main>
+  <div class="container py-4">
+    <router-view v-slot="{ Component }">
+      <transition name="page" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </div>
+</main>
 
     <!-- Footer -->
     <Footer />
