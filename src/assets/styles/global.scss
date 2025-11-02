@@ -1,0 +1,75 @@
+:root {
+  --color-primary: #1e3c72; /* Deep blue - luxury tone */
+  --color-secondary: #2a5298; /* Soft gradient blue */
+  --color-accent: #fcb045; /* Gold accent - premium */
+  --color-light: #f8f9fa;
+  --color-dark: #212529;
+
+  --font-base: 'Poppins', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+
+  --transition-default: all 0.3s ease;
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 🧍 GLOBAL RESET + TYPOGRAPHY */
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+/* 🔲 CONTAINER OVERRIDES (Bootstrap-friendly) */
+.container {
+  max-width: 1200px;
+}
+
+/* 🌀 HOVER + TRANSITIONS */
+a, button {
+  transition: var(--transition-default);
+}
+a:hover, button:hover {
+  opacity: 0.9;
+}
+
+/* 🌗 DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f8f9fa;
+  }
+}
+
+/* 📱 RESPONSIVE BREAKPOINTS */
+$breakpoints: (
+  xs: 0px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/* Example responsive mixin */
+@mixin respond($break) {
+  @if map-has-key($breakpoints, $break) {
+    @media (min-width: map-get($breakpoints, $break)) {
+      @content;
+    }
+  }
+}
+
+/* Example usage:
+@include respond(md) {
+  font-size: 1.25rem;
+}
+*/
