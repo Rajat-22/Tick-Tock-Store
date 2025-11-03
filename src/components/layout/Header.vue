@@ -116,3 +116,83 @@ onBeforeUnmount(() => {
 
 </script>
 
+<style scoped>
+/* 🌟 Frosted Glass Navbar */
+.premium-navbar {
+  backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(15px);
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 1rem 0;
+  z-index: 1030;
+}
+
+/* On scroll — shrink & darken */
+.premium-navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+  padding: 0.4rem 0;
+}
+
+/* Logo */
+.logo-img {
+  width: 120px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Shrinked logo */
+.logo-shrink {
+  width: 90px;
+  height: 38px;
+}
+
+/* Nav links */
+.nav-link {
+  color: var(--bs-dark);
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.nav-link:hover {
+  color: var(--bs-primary);
+  transform: translateY(-2px);
+}
+.router-link-active {
+  color: var(--bs-primary) !important;
+}
+
+/* Toggler icon */
+.custom-toggler i {
+  font-size: 1.8rem;
+  color: #0d6efd;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.custom-toggler:hover i {
+  color: #0a58ca;
+  transform: rotate(90deg);
+}
+[data-bs-theme="dark"] .custom-toggler i {
+  color: #f8f9fa;
+}
+
+/* Dark theme navbar */
+[data-bs-theme="dark"] .premium-navbar {
+  background-color: rgba(33, 37, 41, 0.6);
+  backdrop-filter: blur(15px);
+}
+
+/* Dropdown */
+.dropdown-menu {
+  border-radius: 12px;
+}
+
+/* Mobile spacing */
+@media (max-width: 992px) {
+  .nav-item {
+    margin: 8px 0;
+  }
+}
+</style>
