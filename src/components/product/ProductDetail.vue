@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" :id="`productDetailModal-${product.id}`">
+    <div class="modal fade" tabindex="-1" :id="`productDetailModal-${product._id}`">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-md-6">
-              <h2 class="text-success">{{ product.name }}</h2>
+              <h2 class="text-success">{{ props.product.name }}</h2>
               <span class="badge text-bg-warning p-2" v-if="product.isBestSeller">
                 <i class="bi bi-star-fill"></i> Bestseller
               </span>

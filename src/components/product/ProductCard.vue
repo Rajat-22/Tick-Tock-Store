@@ -28,7 +28,7 @@
           </div>
           <button
             class="btn btn-primary fs-6 py-2 px-4 btn-sm"
-            data-bs-toggle="modal" :data-bs-target="`#productDetailModal-${product.id}`"
+            data-bs-toggle="modal" :data-bs-target="`#productDetailModal-${product._id}`"
           >
             <i class="bi bi-card-list"></i> View Details
           </button>
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <ProductDetail v-if="product.image" :product="product"></ProductDetail>
+    <ProductDetail :product="product"></ProductDetail>
   </div>
     </template>
 
@@ -48,4 +48,6 @@ import ProductDetail from './ProductDetail.vue';
 const props = defineProps({
     product: Object,
 })
+
+// console.log(props.product)
 </script>
