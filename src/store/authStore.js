@@ -1,95 +1,46 @@
 import { defineStore } from "pinia";
-import { ref, reactive, computed } from "vue";
-import { db, auth, firebaseApp } from "@/utility/firebaseConfig";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import {  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
-import { ADMIN_ROLE, USER_ROLE } from "@/constants/productConstant";
+import { ref, computed } from "vue";
+import { jwtDecode } from "jwt-decode";
 
-export const useAuthStore = defineStore('authStore', () => {
-    const user = ref(null)
-    const error = ref(null)
-    const isLoading = ref(false)
-    const role = ref(null)
-    const initialized = ref(false)
-    const isAuthenticated = computed(()=> user.value !== null)
-    const isAdmin = computed(()=> role.value === ADMIN_ROLE)
+export const useAuthStore = defineStore("authStore", () => {
+  const token = ref(localStorage.getItem("token") || "");
 
-    const initializeAuth = async () => {
-        return new Promise((resolve) =>{
- onAuthStateChanged(auth, async(userInFirebase) => {
-            if(userInFirebase){
-                user.value = userInFirebase
-                await fetchUSerRole(userInFirebase.uid)
-                initialized.value = true
-            }else {
-                user.value = null
-                role.value = null
-            }
-            resolve()
-        })
-        })
-       
+  const decodeToken = (token) => {
+    try {
+      return jwtDecode(token);
+    } catch {
+      return null;
     }
+  };
 
-    const fetchUSerRole = async(uid) => {
-      const userDoc = await getDoc(doc(db, 'users', uid));
-      role.value = userDoc.exists()? userDoc.data().role : ''
-    }
+// ✅ Decode token reactively into a user object
+  const user = computed(() => {
+    if (!token.value) return null;
+    return decodeToken(token.value);
+  });
 
-    const signUpUser = async(email, password) => {
-        isLoading.value = true
-        try {
-            const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-          await setDoc(doc(db, 'users', userCredentials.user.uid), {
-               email : userCredentials.user.email,
-               role: USER_ROLE,
-               createdAt: new Date()
-          }) 
-           
-            user.value = null
-            role.value = null
-            error.value = null
-        } catch (err) {
-            error.value = err.message
-            throw err
-        } finally {
-            isLoading.value = false
-        }
-    }
+  const isAuthenticated = computed(() => !!token.value);
 
-     const signInUser = async(email, password) => {
-        isLoading.value = true
-        try {
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-            user.value = userCredentials.user
-            error.value = null
-        } catch (err) {
-            error.value = err.message
-            throw err
-        } finally {
-            isLoading.value = false
-        }
-    }
+  const isAdmin = computed(() => user.value?.role === "admin");
 
-    const signOutUser = async() => {
-        isLoading.value = true
-        try {
-            await signOut(auth)
-            user.value = null
-            role.value = null
-            error.value = null
-        } catch (err) {
-            error.value = err.message
-            throw err
-        } finally {
-            isLoading.value = false
-        }
-    }
+  // Actions
+  const setToken = (newToken) => {
+    token.value = newToken;
+    localStorage.setItem("token", newToken);
+  };
 
-    return { 
-        user, error,isLoading, role, initialized, 
+  const signOutUser = () => {
+    token.value = "";
+    localStorage.removeItem("token");
+  };
 
-        isAdmin, isAuthenticated,
+  return {
+    token,
+    user,
+    isAuthenticated,
+    isAdmin,
+    setToken,
+    signOutUser,
+  };
+});
 
-        signUpUser, signInUser, initializeAuth, signOutUser}
-})
