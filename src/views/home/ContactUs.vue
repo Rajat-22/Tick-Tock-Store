@@ -7,7 +7,8 @@
         <p class="lead mb-4 fade-in-delay">
           Whether you’re looking for your next timeless piece or need help with an order, we’re here for you.
         </p>
-        <button class="btn btn-outline-light px-4 py-2 rounded-pill">
+        <button class="btn btn-outline-light px-4 py-2 rounded-pill"
+        @click="[router.push({name: APP_ROUTE_NAMES.HOME})]">
           Explore Watches
         </button>
       </div>
@@ -24,15 +25,15 @@
               Our team is dedicated to providing exceptional service and support to every TickTock customer.
             </p>
 
-            <div v-for="(info, i) in contactInfo" :key="i" class="d-flex align-items-start mb-4">
-              <div class="icon-box me-3">
-                <i :class="info.icon" class="fa-lg text-gradient"></i>
-              </div>
-              <div>
-                <h6 class="fw-semibold mb-1">{{ info.title }}</h6>
-                <p class="text-muted mb-0" v-html="info.details"></p>
-              </div>
-            </div>
+           <div v-for="(info, i) in contactInfo" :key="i" class="d-flex align-items-start mb-4">
+  <div class="icon-box me-3">
+    <i :class="info.icon" class="fs-4 text-gradient"></i>
+  </div>
+  <div>
+    <h6 class="fw-semibold mb-1">{{ info.title }}</h6>
+    <p class="text-muted mb-0" v-html="info.details"></p>
+  </div>
+</div>
           </div>
 
           <!-- Contact Form -->
@@ -79,29 +80,35 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
+import { APP_ROUTE_NAMES } from '@/constants/routerName';
+import { alerts } from '@/utility/alert';
+
+const router = useRouter()
+const { showSuccess} = alerts()
 
 const contactInfo = [
   {
     title: "Visit Us",
-    icon: "fas fa-map-marker-alt",
+    icon: "bi bi-geo-alt-fill",
     details: "Krishna Ellite Homes<br />Tower B, 302<br />Greater Noida, India",
   },
   {
     title: "Call Us",
-    icon: "fas fa-phone",
+    icon: "bi bi-telephone-fill",
     details: "+91-9873957498<br />+91-9506046219<br />Mon–Fri: 9am–5pm",
   },
   {
     title: "Email Us",
-    icon: "fas fa-envelope",
+    icon: "bi bi-envelope-fill",
     details: "rajatsharma221098@gmail.com",
   },
-];
+]
 
 const form = ref({ name: "", email: "", message: "" });
 
 const onSubmit = () => {
-  alert(`Thank you, ${form.value.name}! We'll get back to you soon.`);
+  showSuccess(`Thank you, ${form.value.name}! We'll get back to you soon.`)
   form.value = { name: "", email: "", message: "" };
 };
 </script>
@@ -162,6 +169,12 @@ const onSubmit = () => {
   justify-content: center;
   background-color: rgba(30, 60, 114, 0.08);
   border-radius: 50%;
+}
+
+.icon-box i {
+  background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
