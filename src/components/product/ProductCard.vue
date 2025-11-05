@@ -7,7 +7,7 @@
           class="card-img-top object-fit-cover"
           style="height: 300px"
         />
-        <div v-if="product.bestseller"
+        <div v-if="product.isBestSeller"
           class="position-absolute top-0 start-0 m-2 px-2 py-1 text-white rounded-pill text-sm"
           style="background-color: #7113b0;"
         >
@@ -28,7 +28,7 @@
           </div>
           <button
             class="btn btn-primary fs-6 py-2 px-4 btn-sm"
-            data-bs-toggle="modal" :data-bs-target="`#productDetailModal-${product.id}`"
+            data-bs-toggle="modal" :data-bs-target="`#productDetailModal-${product._id}`"
           >
             <i class="bi bi-card-list"></i> View Details
           </button>
@@ -48,4 +48,6 @@ import ProductDetail from './ProductDetail.vue';
 const props = defineProps({
     product: Object,
 })
+
+// console.log(props.product)
 </script>

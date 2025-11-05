@@ -19,8 +19,8 @@
                   required
                 />
               </div>
-                            <button :disabled="authStore.isLoading" type="submit" class="btn btn-success w-100">
-                <span v-if="authStore.isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                <button :disabled="isLoading" type="submit" class="btn btn-success w-100">
+                <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 Sign In
               </button>
               <div v-if="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
@@ -42,28 +42,33 @@
  import { useRouter } from 'vue-router';
  import { alerts } from '@/utility/alert';
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
-import { useAuthStore } from '@/store/authStore';
- 
-const authStore = useAuthStore()
+import { loginUser } from '@/apiEndpoints/apiEndpoints';
+import { useAuthStore } from "@/store/authStore";
+
 const router = useRouter()
  const error = ref("");
  const form = reactive({
     email: "",
     password: ""
  })
- const {showSuccess, showError} = alerts()
+ const authStore = useAuthStore();
+const isLoading = ref(false);
+const {showSuccess, showError} = alerts()
 
 const handleSignIn = async() =>{
+  isLoading.value = true;
   try {
     error.value = ''
-    console.log(form)
-    // showSuccess('Account created successfully')
-    await authStore.signInUser(form.email, form.password)
+   const data = await loginUser(form.email, form.password);
+    // localStorage.setItem("token", data.token); // save token for auth
+    error.value = "Login successful!";
     router.push({name:APP_ROUTE_NAMES.HOME})
     
   } catch (err) {
     error.value = err.message
     showError(err.message)
+  } finally {
+    isLoading.value = false; // stop loading
   }
  }
 </script>

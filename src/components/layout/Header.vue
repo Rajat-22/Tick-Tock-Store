@@ -27,7 +27,7 @@
 
       <ul class="d-flex navbar-nav">
         <li class="nav-link" v-if="authStore.isAuthenticated">
-          Welcome, {{ authStore.user?.email }}
+          Welcome, {{ authStore.user?.name }}
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -35,7 +35,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><button @click="themeStore.setTheme('light')" class="dropdown-item"><i class="bi bi-sun"></i>&nbsp; Light</button></li>
-        <li><button @click="themeStore.setTheme('dark')"class="dropdown-item"><i class="bi bi-moon-stars-fill"></i>&nbsp; Dark</button></li>
+        <li><button @click="themeStore.setTheme('dark')" class="dropdown-item"><i class="bi bi-moon-stars-fill"></i>&nbsp; Dark</button></li>
           </ul>
         </li>
         <li class="nav-item" v-if="!authStore.isAuthenticated">

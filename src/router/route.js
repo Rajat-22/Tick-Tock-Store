@@ -45,19 +45,16 @@ const router = createRouter({
         path : '/product-list',
         name: APP_ROUTE_NAMES.PRODUCT_LIST,
         component: ProductList,
-        beforeEnter: [isAdmin]
       },
       {
         path : '/product-create',
         name: APP_ROUTE_NAMES.PRODUCT_CREATE,
         component: ProductUpdate,
-        beforeEnter: [isAdmin]
       },
       {
         path : '/product-update/:id',
         name: APP_ROUTE_NAMES.PRODUCT_UPDATE,
         component: ProductUpdate,
-        beforeEnter: [isAdmin]
       },
       {
         path : '/contact-us',
@@ -67,34 +64,33 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach(async(toString, from)=>{
-  const authStore = useAuthStore()
+const adminRoutes = [
+  APP_ROUTE_NAMES.PRODUCT_LIST,
+  APP_ROUTE_NAMES.PRODUCT_CREATE,
+  APP_ROUTE_NAMES.PRODUCT_UPDATE,
+];
 
-  if(!authStore.initialized){
-    await authStore.initializeAuth()
-  }
-})
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
 
-function isAdmin(){
-  const authStore = useAuthStore()
-  if(authStore.isAuthenticated){
-    if(authStore.isAdmin){
-      return true
-    }else {
-      return { name: APP_ROUTE_NAMES.ACCESS_DENIED}
+  // Admin-protected routes
+  if (adminRoutes.includes(to.name)) {
+    if (!authStore.isAuthenticated) {
+      // Not logged in → redirect to Sign In
+      return next({ name: APP_ROUTE_NAMES.SIGN_IN });
     }
-  }else {
-    return { name: APP_ROUTE_NAMES.SIGN_IN }
-  }
-}
 
-function isAuthenticated(){
-  const authStore = useAuthStore()
-  if(authStore.isAuthenticated){
-    return true
-  }else {
-    return { name: APP_ROUTE_NAMES.SIGN_IN }
+    if (!authStore.isAdmin) {
+      // Logged in but not admin → redirect to Access Denied
+      return next({ name: APP_ROUTE_NAMES.ACCESS_DENIED });
+    }
   }
-}
+
+  // Add other auth-only routes here if needed
+  // e.g., const authRoutes = [APP_ROUTE_NAMES.DASHBOARD];
+  // if (authRoutes.includes(to.name) && !authStore.isAuthenticated) return next({ name: APP_ROUTE_NAMES.SIGN_IN });
+
+  next();
+});
 
 export default router
