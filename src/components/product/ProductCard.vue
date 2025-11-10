@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+  <div class="col-6 col-md-4 col-lg-3 col-xl-3">
     <div
       class="watch-card card border-0 shadow-sm h-100 position-relative overflow-hidden rounded-4"
     >
@@ -71,89 +71,146 @@ const props = defineProps({
 </script>
 
 <style scoped>
-/* Card container */
+/* =====================
+   WATCH CARD BASE
+===================== */
 .watch-card {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
+  border-radius: 1rem;
 }
 .watch-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   border-color: var(--color-accent);
 }
 
-/* Image styling */
+/* =====================
+   IMAGE AREA
+===================== */
 .image-wrapper img {
-  height: 300px;
+  height: 240px;
   width: 100%;
-  transition: transform 0.5s ease, filter 0.4s ease;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.3s ease;
 }
 .image-wrapper:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.1);
+  transform: scale(1.08);
+  filter: brightness(1.08);
 }
 
-/* Overlay */
+/* =====================
+   OVERLAY (Hover Button)
+===================== */
 .overlay {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .image-wrapper:hover .overlay {
   opacity: 1;
 }
-
-/* Bestseller badge */
-.badge-bestseller {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: var(--color-accent);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-/* Buttons */
 .btn-accent {
   background: var(--color-accent);
   color: #000;
+  font-size: 0.85rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 2rem;
   transition: all 0.3s ease;
 }
 .btn-accent:hover {
-  background: #ffda6a;
-  color: #000;
-}
-.btn-outline-light:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #f7d96e;
 }
 
-/* Price */
-.price .text-accent {
-  color: var(--color-accent) !important;
+/* =====================
+   BADGES
+===================== */
+.badge-bestseller {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--color-accent);
+  color: #111;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-
-/* Category badge */
 .badge-category {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 4px 10px;
   border-radius: 50px;
   background: var(--color-primary);
   color: #fff;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  font-size: 0.75rem;
 }
 
-/* Text */
+/* =====================
+   TEXT / PRICE
+===================== */
+.card-body {
+  padding: 1rem 0.75rem;
+}
+.card-body h5 {
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.4rem;
+}
+.price {
+  margin-bottom: 0.6rem;
+}
+.price .fs-6 {
+  font-size: 0.9rem !important;
+}
+.price .fs-5 {
+  font-size: 1rem !important;
+}
 .text-accent {
   color: var(--color-accent);
 }
+
+/* =====================
+   MOBILE OPTIMIZATION
+===================== */
+@media (max-width: 576px) {
+  .image-wrapper img {
+    height: 180px;
+  }
+
+  .card-body {
+    padding: 0.8rem;
+  }
+
+  .card-body h5 {
+    font-size: 0.9rem;
+  }
+
+  .price span {
+    font-size: 0.9rem !important;
+  }
+
+  .btn-accent {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.9rem;
+  }
+
+  .badge-bestseller {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+
+  .badge-category {
+    font-size: 0.7rem;
+    padding: 3px 9px;
+  }
+}
+
 </style>
