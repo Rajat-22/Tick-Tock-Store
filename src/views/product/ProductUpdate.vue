@@ -1,80 +1,128 @@
 <template>
-     <div class="container">
-    <div class="row border p-4 my-5 rounded">
-      <div class="col-9">
-        <form v-on:submit.prevent="handleSubmit">
-          <div class="h2 text-center text-success">{{ productIdForUpdate ? "Update": "Create" }} Product</div>
-          <hr />
-          <div v-if="errorList.length>0" class="alert alert-danger pb-0">
-            Please fix the following errors:
-            <ul>
-              <li v-for="error in errorList" :key="error">{{ error }}</li>
-            </ul>
-          </div>
+  <div class="container py-5">
+    <div class="row shadow-lg rounded-4 overflow-hidden bg-light border-0">
+      <!-- ✅ Left Form Section -->
+      <div class="col-lg-8 p-5 bg-white">
+        <h3 class="text-gradient text-center fw-bold mb-4">
+          {{ productIdForUpdate ? "Update Product" : "Create Product" }}
+        </h3>
+        <hr class="mb-4"/>
 
-          <div class="mt-3">
-            <span class="text-muted">Name</span>
-            <input type="text" class="form-control" v-model.trim="productObj.name" />
-          </div>
-          <div class="mt-3">
-            <span class="text-muted">Description</span>
-            <textarea type="text" class="form-control" v-model="productObj.description"></textarea>
-          </div>
-          <div class="mt-3">
-            <span class="text-muted">Price</span>
-            <input type="number" class="form-control" v-model.number="productObj.price" />
-          </div>
+        <div v-if="errorList.length > 0" class="alert alert-danger rounded-3 shadow-sm">
+          <strong>Please fix the following errors:</strong>
+          <ul class="mb-0 ps-3">
+            <li v-for="error in errorList" :key="error">{{ error }}</li>
+          </ul>
+        </div>
 
-          <div class="mt-3">
-            <span class="text-muted">Sale Price</span>
-            <input type="number" class="form-control" v-model.number="productObj.salePrice" />
-          </div>
-          <div class="mt-3">
-            <span class="text-muted">Tags (comma-seperated)</span>
+        <form @submit.prevent="handleSubmit">
+          <!-- Name -->
+          <div class="mb-3">
+            <label class="form-label text-muted fw-semibold">Product Name</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control form-control-lg border-0 shadow-sm"
+              v-model.trim="productObj.name"
+              placeholder="Enter watch name"
+            />
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label text-muted fw-semibold">Description</label>
+            <textarea
+              class="form-control border-0 shadow-sm"
+              rows="3"
+              placeholder="Write a short description..."
+              v-model="productObj.description"
+            ></textarea>
+          </div>
+
+          <!-- Price -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted fw-semibold">Price</label>
+              <input
+                type="number"
+                class="form-control border-0 shadow-sm"
+                v-model.number="productObj.price"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted fw-semibold">Sale Price</label>
+              <input
+                type="number"
+                class="form-control border-0 shadow-sm"
+                v-model.number="productObj.salePrice"
+              />
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="mb-3">
+            <label class="form-label text-muted fw-semibold">Tags</label>
+            <input
+              type="text"
+              class="form-control border-0 shadow-sm"
               placeholder="e.g., analog, automatic, luxury"
               v-model="productObj.tags"
             />
           </div>
-          <div class="form-check form-switch pt-3">
-            <input class="form-check-input" type="checkbox" role="switch" v-model="productObj.isBestSeller" />
 
-            <label class="form-check-label" for="bestseller">
-              Bestseller
-            </label>
+          <!-- Bestseller -->
+          <div class="form-check form-switch mb-4 ps-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              v-model="productObj.isBestSeller"
+              id="bestseller"
+            />
+            <label class="form-check-label text-muted" for="bestseller">Mark as Bestseller</label>
           </div>
-          <div class="mt-3">
-            <label class="text-muted">Category</label>
-            <select class="form-select" v-model="productObj.category">
+
+          <!-- Category -->
+          <div class="mb-4">
+            <label class="form-label text-muted fw-semibold">Category</label>
+            <select class="form-select border-0 shadow-sm" v-model="productObj.category">
               <option v-for="option in PRODUCT_CATEGORIES" :key="option" :value="option">{{ option }}</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Image</label>
-            <div class="input-group">
-              <input type="file" class="form-control" @change="handleImageUpload" />
-            </div>
+
+          <!-- Image -->
+          <div class="mb-4">
+            <label class="form-label text-muted fw-semibold">Product Image</label>
+            <input type="file" class="form-control border-0 shadow-sm" @change="handleImageUpload" />
           </div>
-          <div class="pt-3">
-            <button class="btn btn-success m-2 w-25" :disabled="loading">
-              <span v-if="loading || isImageloading" class="spinner-border spinner-border-sm me-2"></span>Submit
+
+          <!-- Buttons -->
+          <div class="text-center pt-3">
+            <button class="btn btn-primary-gradient px-4 me-2" :disabled="loading">
+              <span v-if="loading || isImageloading" class="spinner-border spinner-border-sm me-2"></span>
+              Submit
             </button>
-            <router-link :to="{name:APP_ROUTE_NAMES.PRODUCT_LIST}" class="btn btn-secondary m-2 w-25"> Cancel </router-link>
+            <router-link
+              :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }"
+              class="btn btn-outline-secondary px-4"
+            >
+              Cancel
+            </router-link>
           </div>
         </form>
       </div>
-      <div class="col-3">
+
+      <!-- ✅ Right Image Preview Section -->
+      <div class="col-lg-4 d-flex align-items-center justify-content-center bg-gradient-blue p-4">
         <img
-          :src="productObj.imagePreview || productObj.image ||`https://placehold.co/600x400`"
-          class="img-fluid w-100 m-3 p-3 rounded"
+          :src="productObj.imagePreview || productObj.image || `https://placehold.co/400x400?text=Watch+Preview`"
+          class="img-fluid rounded-4 shadow-lg"
           alt="Product preview"
         />
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, reactive, onMounted, onBeforeUnmount  } from 'vue';
@@ -209,3 +257,41 @@ async function handleImageUpload(event){
 }
 
 </script>
+
+<style scoped>
+.bg-gradient-blue {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-primary-gradient {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.btn-primary-gradient:hover {
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+  transform: translateY(-2px);
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.25rem rgba(252, 176, 69, 0.25);
+}
+
+.shadow-lg {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+</style>
