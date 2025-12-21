@@ -67,7 +67,7 @@
   <iframe
     src="https://www.google.com/maps?q=28.5461568,77.4440099&z=16&output=embed"
     width="100%"
-    height="400"
+    height="350"
     style="border:0;"
     allowfullscreen=""
     loading="lazy"
@@ -122,7 +122,7 @@ const onSubmit = () => {
 /* Hero Section */
 .contact-hero {
   background: url("/src/assets/watch-background.webp") center/cover no-repeat;
-  min-height: 60vh;
+  min-height: 50vh;
   position: relative;
 }
 .contact-hero::before {
