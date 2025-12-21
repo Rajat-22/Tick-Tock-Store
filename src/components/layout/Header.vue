@@ -38,7 +38,7 @@
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.CONTACT_US }">Contact</router-link>
           </li>
 
-          <li class="nav-item dropdown mx-2">
+          <!-- <li class="nav-item dropdown mx-2">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -60,7 +60,7 @@
                 </button>
               </li>
             </ul>
-          </li>
+          </li> -->
 
           <li class="nav-item mx-2" v-if="!authStore.isAuthenticated">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }">Sign In</router-link>
@@ -152,7 +152,6 @@ onBeforeUnmount(() => {
 
 /* Nav links */
 .nav-link {
-  color: var(--bs-dark);
   font-weight: 500;
   transition: color 0.3s ease, transform 0.2s ease;
 }
