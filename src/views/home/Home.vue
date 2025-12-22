@@ -170,6 +170,7 @@ const filteredProductList = computed(() =>{
 .hero {
   background: linear-gradient(135deg, #0e1116, #161a21);
 }
+
 .text-gradient {
   background: linear-gradient(90deg, var(--color-accent), #fff);
   -webkit-background-clip: text;
