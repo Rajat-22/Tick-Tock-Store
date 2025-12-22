@@ -26,6 +26,11 @@ import Footer from './components/layout/Footer.vue'
 </script>
 
 <style scoped>
+.py-4 {
+    padding-top: 6.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+
 /* 🌈 Use gradient background defined in global theme */
 .app-wrapper {
   background: linear-gradient(135deg, var(--color-light) 0%, #f1f3f5 50%, #e9ecef 100%);
