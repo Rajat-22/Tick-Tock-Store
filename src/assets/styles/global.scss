@@ -1,0 +1,193 @@
+/* =========================================
+   🌐 GLOBAL STYLES (For Entire Project)
+   ========================================= */
+:root {
+  /* Primary Palette (Light Mode) */
+  --color-primary: #1e3c72; /* Deep blue - luxury tone */
+  --color-secondary: #2a5298; /* Soft gradient blue */
+  --color-accent: #fcb045; /* Gold accent - premium */
+
+  /* Neutrals */
+  --color-light: #f8f9fa;
+  --color-dark: #212529;
+  --color-text: #212529;
+  --color-text-secondary: #4c5c74; /* Elegant bluish-gray */
+  --color-border: #e0e0e0;
+  --color-bg: #ffffff;
+  --color-surface: #f8f9fa;
+
+  /* Typography & Motion */
+  --font-base: 'Poppins', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+  --transition-default: all 0.3s ease;
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌙 Dark Theme */
+[data-bs-theme="dark"] {
+  --color-bg: #0f111a;
+  --color-surface: #181b22;
+  --color-text: #f2f4f8;
+  --color-text-secondary: #b0b8c3;
+  --color-border: #2a2e38;
+  --color-light: #181b22;
+  --color-dark: #f8f9fa;
+
+  /* Premium accents stay same for brand consistency */
+  --color-primary: #1e3c72;
+  --color-secondary: #2a5298;
+  --color-accent: #fcb045;
+}
+
+/* 🧍 RESET + TYPOGRAPHY */
+body {
+    background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5 {
+ font-family: var(--font-heading);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* 🔲 CONTAINER OVERRIDES (Bootstrap-Friendly) */
+.container {
+  max-width: 1200px;
+}
+
+.text-muted {
+  color: var(--color-text-secondary) !important;
+  opacity: 1 !important;
+}
+
+/* 🌀 LINKS + BUTTONS */
+a, button {
+  transition: var(--transition-default);
+}
+a:hover, button:hover {
+  opacity: 0.9;
+}
+
+/* 🌗 DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f8f9fa;
+  }
+}
+
+/* =========================================
+   💎 REUSABLE UTILITIES
+   ========================================= */
+
+/* 🌈 Gradient Text */
+.text-gradient {
+  background: linear-gradient(45deg, #0d6efd, #6610f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 🧱 Shadow Helpers */
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+/* 🔲 Rounded Helpers */
+.rounded-xl {
+  border-radius: 1rem;
+}
+
+/* 🎭 Fade-in Animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+.fade-in-delay {
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* 💡 Icon Container */
+.icon-box {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eef2ff;
+  border-radius: 50%;
+}
+
+/* ✴️ Button Accent Variant */
+.btn-accent {
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  transition: var(--transition-default);
+}
+.btn-accent:hover {
+  filter: brightness(0.9)
+}
+
+/* =========================================
+   📱 RESPONSIVE SYSTEM
+   ========================================= */
+
+$breakpoints: (
+  xs: 0px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/* Mixin for Responsive Queries */
+@mixin respond($break) {
+  @if map-has-key($breakpoints, $break) {
+    @media (min-width: map-get($breakpoints, $break)) {
+      @content;
+    }
+  }
+}
+
+/* Global Responsive Helpers */
+.hide-mobile {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+.hide-desktop {
+  @media (min-width: 768px) {
+    display: none !important;
+  }
+}
+
+/* =========================================
+   🧭 GLOBAL TRANSITION HELPERS
+   ========================================= */
+.transition {
+  transition: var(--transition-default);
+}
+.scale-hover {
+  transition: transform 0.3s ease;
+}
+.scale-hover:hover {
+  transform: scale(1.05);
+}
