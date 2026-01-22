@@ -6,12 +6,7 @@
   >
     <div class="container">
       <router-link :to="{ name: APP_ROUTE_NAMES.HOME }" class="navbar-brand d-flex align-items-center">
-        <img
-          src="@/assets/tick-tock.jpg"
-          alt="TickTock Store"
-          class="logo-img me-2"
-          :class="{ 'logo-shrink': isScrolled }"
-        />
+        <WatchIcon :isScrolled="isScrolled" />
       </router-link>
 
       <button
@@ -94,6 +89,7 @@ import { APP_ROUTE_NAMES } from '@/constants/routerName';
 import { useRouter } from 'vue-router';
 import { useThemeStore } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
+import WatchIcon from './WatchIcon.vue';
 
 const authStore = useAuthStore()
 const themeStore = useThemeStore()
@@ -133,21 +129,6 @@ onBeforeUnmount(() => {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
   padding: 0.4rem 0;
-}
-
-/* Logo */
-.logo-img {
-  width: 120px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-/* Shrinked logo */
-.logo-shrink {
-  width: 90px;
-  height: 38px;
 }
 
 /* Nav links */
