@@ -60,6 +60,11 @@ const router = createRouter({
         path : '/contact-us',
         name: APP_ROUTE_NAMES.CONTACT_US,
         component: ContactUs,
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        name: APP_ROUTE_NAMES.NOT_FOUND,
+        component: NotFound,
       }
     ]
 })
