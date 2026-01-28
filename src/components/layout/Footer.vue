@@ -1,7 +1,5 @@
 <template>
-  <footer class="footer text-light py-4 mt-5 position-relative overflow-hidden">
-    <!-- Gentle animated glow -->
-    <div class="footer-glow"></div>
+  <footer class="footer text-light py-3 mt-2 position-relative overflow-hidden">
 
     <div class="container position-relative text-center">
       <h5 class="fw-bold mb-1 text-accent d-flex align-items-center justify-content-center">
@@ -11,7 +9,7 @@
         “Keeping You On Time, Every Time.”
       </p>
 
-      <hr class="border-secondary my-3" />
+      <hr class="border-secondary my-2" />
 
       <div class="small text-muted">
         &copy; {{ new Date().getFullYear() }}
@@ -31,33 +29,6 @@
   overflow: hidden;
 }
 
-/* Compact glow */
-.footer-glow {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
-  filter: blur(40px);
-  z-index: 0;
-  animation: glowPulse 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* Gentle pulse */
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translateX(-50%) scale(1.1);
-  }
-}
-
 /* Accent + divider styling */
 .text-accent {
   color: var(--color-accent, #d4af37);
@@ -73,16 +44,13 @@ hr {
   .footer {
     padding: 1.5rem 0;
   }
+
   .footer h5 {
     font-size: 1.1rem;
   }
+
   .footer p {
     font-size: 0.85rem;
-  }
-  .footer-glow {
-    width: 140px;
-    height: 140px;
-    top: -30px;
   }
 }
 </style>
