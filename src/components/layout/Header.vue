@@ -1,23 +1,12 @@
 <template>
-  <nav
-    ref="navbarRef"
-    class="navbar navbar-expand-lg premium-navbar fixed-top"
-    :class="{ scrolled: isScrolled }"
-  >
+  <nav ref="navbarRef" class="navbar navbar-expand-lg premium-navbar fixed-top" :class="{ scrolled: isScrolled }">
     <div class="container">
       <router-link :to="{ name: APP_ROUTE_NAMES.HOME }" class="navbar-brand d-flex align-items-center">
         <WatchIcon :isScrolled="isScrolled" />
       </router-link>
 
-      <button
-        class="navbar-toggler border-0 custom-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler border-0 custom-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="bi bi-list"></i>
       </button>
 
@@ -61,20 +50,19 @@
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }">Sign In</router-link>
           </li>
           <li class="nav-item mx-2" v-if="!authStore.isAuthenticated">
-            <router-link
-              class="nav-link"
-              :to="{ name: APP_ROUTE_NAMES.SIGN_UP }"
-            >
-              Sign Up
-            </router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_UP }">Sign Up</router-link>
           </li>
           <li class="nav-item mx-2" v-if="authStore.isAuthenticated">
-            <button
-              class="btn btn-outline-danger rounded-pill px-3 py-1"
-              @click="[authStore.signOutUser(), router.push({ name: APP_ROUTE_NAMES.HOME })]"
-            >
+            <button class="btn btn-outline-danger rounded-pill px-3 py-1"
+              @click="[authStore.signOutUser(), router.push({ name: APP_ROUTE_NAMES.HOME })]">
               Sign Out
             </button>
+          </li>
+          <li class="nav-item mx-2" v-if="authStore.isAuthenticated">
+            <span class="nav-link text-primary fw-semibold">
+              <i class="bi bi-person-circle me-1"></i>
+              {{ authStore.user?.name }}
+            </span>
           </li>
         </ul>
       </div>
@@ -136,10 +124,12 @@ onBeforeUnmount(() => {
   font-weight: 500;
   transition: color 0.3s ease, transform 0.2s ease;
 }
+
 .nav-link:hover {
   color: var(--bs-primary);
   transform: translateY(-2px);
 }
+
 .router-link-active {
   color: var(--bs-primary) !important;
 }
@@ -150,10 +140,12 @@ onBeforeUnmount(() => {
   color: #0d6efd;
   transition: transform 0.2s ease, color 0.2s ease;
 }
+
 .custom-toggler:hover i {
   color: #0a58ca;
   transform: rotate(90deg);
 }
+
 [data-bs-theme="dark"] .custom-toggler i {
   color: #f8f9fa;
 }
