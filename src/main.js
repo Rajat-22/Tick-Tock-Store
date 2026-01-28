@@ -1,7 +1,5 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from './utility/firebaseConfig'
 import App from './App.vue'
 import router from './router/route'
 import './assets/styles/global.scss'
@@ -24,11 +22,4 @@ if(themeStore.theme){
     bodyElement.setAttribute('data-bs-theme', themeStore.theme)
 }
 
-let isMounted = false
-
-onAuthStateChanged(auth, async(user) => {
-    if(!isMounted){
-    app.mount('#app')
-    isMounted = true
-    }
-})
+app.mount('#app')
