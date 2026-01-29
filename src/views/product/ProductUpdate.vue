@@ -129,10 +129,8 @@ import { ref, reactive, onMounted, onBeforeUnmount  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PRODUCT_CATEGORIES } from '../../constants/productConstant'
 import { alerts } from '@/utility/alert';
-import  productService  from '../../services/productService'
 import { getProductById, updateProduct, createProduct } from '@/apiEndpoints/apiEndpoints'
 import { APP_ROUTE_NAMES } from '@/constants/routerName';
-import { uploadImageCloudinary } from '@/utility/cloudImage';
 
 const { showSuccess, showError, showConfirm} = alerts()
 const router = useRouter()
