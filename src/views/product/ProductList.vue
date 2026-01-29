@@ -180,7 +180,6 @@
 
 <script setup>
 import { onMounted, ref, computed  } from 'vue';
-import  productService  from '../../services/productService'
 import { getProducts, deleteProduct } from '@/apiEndpoints/apiEndpoints'
 import { alerts } from '@/utility/alert';
 import { APP_ROUTE_NAMES } from '@/constants/routerName';

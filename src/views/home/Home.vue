@@ -102,7 +102,6 @@
 
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-import  productService  from '../../services/productService'
 import { getProducts } from '@/apiEndpoints/apiEndpoints'
 import ProductCard from '@/components/product/ProductCard.vue';
 import { PRODUCT_CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/productConstant';
