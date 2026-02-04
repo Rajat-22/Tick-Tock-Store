@@ -1,29 +1,18 @@
 <template>
   <div class="home-page">
     <!-- 🌟 HERO SECTION (Compact, Elegant) -->
-   <section class="hero container-fluid py-5 px-3 px-md-5">
-  <div class="row align-items-center g-4 flex-column-reverse flex-lg-row text-center text-lg-start">
-    <!-- 🎥 Video Section (hidden on xs, visible on md+) -->
-    <div class="col-lg-6 position-relative mb-4 mb-lg-0 d-flex justify-content-center d-none d-md-block">
-      <div class="video-wrapper rounded-4 overflow-hidden shadow-lg w-100" style="max-width: 480px;">
-        <video autoplay muted loop playsinline class="w-100">
-          <source src="/src/assets/vecteezy_time-lapse-of-clock-time-passing_34635599.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-overlay"></div>
-      </div>
-    </div>
-
+   <section class="hero container-fluid py-2 px-3 px-md-4">
+  <div class="row align-items-center g-3 flex-column-reverse flex-lg-row text-center text-lg-start">
     <!-- 🕰️ Text Section -->
-    <div class="col-lg-6">
-      <h1 class="fw-bold display-6 display-md-5 mb-3 text-gradient">
+    <div class="col-lg-8">
+      <h1 class="fw-bold display-6 display-md-5 mb-2 text-gradient">
         Timeless Style. <br class="d-md-none"/>Modern Precision.
       </h1>
-      <p class="lead text-light opacity-75 mb-4 px-2 px-md-0">
+      <p class="lead text-light opacity-75 mb-3 px-2 px-md-0">
         Explore our exclusive collection of luxury watches — where every second tells a story of craftsmanship and elegance.
       </p>
 
-      <div class="search-bar input-group shadow rounded-pill overflow-hidden mx-auto mx-lg-0" style="max-width: 500px;">
+      <div class="search-bar input-group shadow-lg rounded-pill overflow-hidden mx-auto mx-lg-0" style="max-width: 500px; border: 2px solid rgba(212, 175, 55, 0.4); background: rgba(26, 29, 36, 0.6);">
         <span class="input-group-text bg-transparent border-0 ps-3 text-accent">
           <i class="bi bi-search fs-5"></i>
         </span>
@@ -35,16 +24,24 @@
         />
       </div>
     </div>
+
+    <!-- ⌚ Animated Watch Section (hidden on xs, visible on md+) -->
+    <div class="col-lg-4 position-relative mb-2 mb-lg-0 d-flex justify-content-center d-none d-md-block">
+      <div class="watch-wrapper w-100" style="max-width: 480px;">
+        <AnimatedWatch />
+      </div>
+    </div>
   </div>
 </section>
 
-
     <!-- 🕰️ PRODUCT COLLECTION -->
-    <section id="product-list" class="container-lg py-5">
-      <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-        <h2 class="display-6 fw-bold text-light mb-3 mb-md-0">Discover Our Collection</h2>
-
-        <div class="d-flex flex-wrap align-items-center gap-3">
+    <section id="product-list" class="container-lg py-3">
+      <div class="text-center mb-4 py-3">
+        <h2 class="display-6 fw-bold text-light">Discover Our Collection</h2>
+      </div>
+      
+      <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <div class="d-flex flex-wrap align-items-center gap-3 w-100 justify-content-center justify-content-md-between">
           <!-- Category Buttons -->
           <div class="d-flex flex-wrap gap-2">
             <button
@@ -83,14 +80,14 @@
       </div>
 
       <!-- Product List -->
-      <div v-if="filteredProductList.length > 0" class="row g-4">
+      <div v-if="filteredProductList.length > 0" class="row g-3">
         <ProductCard
           v-for="product in filteredProductList"
           :key="product.id"
           :product="product"
         />
       </div>
-     <div v-else class="text-center py-5 my-5">
+     <div v-else class="text-center py-4 my-3">
   <div class="d-flex justify-content-center align-items-center flex-column">
     <div class="spinner-border text-accent mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
     <h6 class="text-light-50 fw-semibold">Loading products...</h6>
@@ -104,6 +101,7 @@
 import { onMounted, ref, computed } from 'vue';
 import { getProducts } from '@/apiEndpoints/apiEndpoints'
 import ProductCard from '@/components/product/ProductCard.vue';
+import AnimatedWatch from '@/components/layout/AnimatedWatch.vue';
 import { PRODUCT_CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/productConstant';
 
 
@@ -176,32 +174,31 @@ const filteredProductList = computed(() =>{
   -webkit-text-fill-color: transparent;
 }
 
-.video-wrapper {
-  position: relative;
-  border: 2px solid rgba(212, 175, 55, 0.3);
-  transition: transform 0.4s ease;
-}
-.video-wrapper:hover {
-  transform: scale(1.03);
-}
-.video-overlay {
-  position: absolute;
-  inset: 0;
- background: rgba(0, 0, 0, 0.25);
+.watch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
 /* SEARCH BAR */
 .search-bar {
   max-width: 500px;
+  backdrop-filter: blur(10px);
 }
 .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 .input-group-text i {
   color: var(--color-accent);
 }
 .search-bar:focus-within {
-  box-shadow: 0 0 10px var(--color-accent);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5) !important;
+  border-color: rgba(212, 175, 55, 0.7) !important;
+}
+.search-bar .form-control:focus {
+  box-shadow: none;
 }
 
 /* CATEGORY BUTTONS */
