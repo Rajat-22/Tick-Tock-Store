@@ -101,7 +101,7 @@ onBeforeUnmount(() => {
 .premium-hero {
   width: 100%;
   height: 100%;
-  min-height: 320px;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,8 +130,8 @@ onBeforeUnmount(() => {
 
 .watch-container {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 250px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
