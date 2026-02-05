@@ -5,6 +5,13 @@
         <WatchIcon :isScrolled="isScrolled" />
       </router-link>
 
+      <!-- User badge visible on mobile only -->
+      <div v-if="authStore.isAuthenticated" class="d-lg-none">
+        <span class="badge bg-primary rounded-pill px-2 py-1">
+          <i class="bi bi-person-circle"></i>
+        </span>
+      </div>
+
       <button class="navbar-toggler border-0 custom-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="bi bi-list"></i>
@@ -12,14 +19,22 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-lg-center">
+          <!-- User info banner on mobile only -->
+          <li v-if="authStore.isAuthenticated" class="nav-item d-lg-none user-banner">
+            <div class="text-center py-2 mb-2 bg-primary bg-opacity-10 rounded">
+              <i class="bi bi-person-circle fs-4 text-primary"></i>
+              <div class="fw-bold text-primary">{{ authStore.user?.name }}</div>
+            </div>
+          </li>
+          
           <li class="nav-item mx-2">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.HOME }">Home</router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.HOME }" @click="closeNavbar">Home</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }">Products</router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }" @click="closeNavbar">Products</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.CONTACT_US }">Contact</router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.CONTACT_US }" @click="closeNavbar">Contact</router-link>
           </li>
 
           <!-- <li class="nav-item dropdown mx-2">
@@ -47,18 +62,18 @@
           </li> -->
 
           <li class="nav-item mx-2" v-if="!authStore.isAuthenticated">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }">Sign In</router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }" @click="closeNavbar">Sign In</router-link>
           </li>
           <li class="nav-item mx-2" v-if="!authStore.isAuthenticated">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_UP }">Sign Up</router-link>
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_UP }" @click="closeNavbar">Sign Up</router-link>
           </li>
           <li class="nav-item mx-2" v-if="authStore.isAuthenticated">
             <button class="btn btn-outline-danger rounded-pill px-3 py-1"
-              @click="[authStore.signOutUser(), router.push({ name: APP_ROUTE_NAMES.HOME })]">
+              @click="[authStore.signOutUser(), router.push({ name: APP_ROUTE_NAMES.HOME }), closeNavbar()]">
               Sign Out
             </button>
           </li>
-          <li class="nav-item mx-2" v-if="authStore.isAuthenticated">
+          <li class="nav-item mx-2 d-none d-lg-block" v-if="authStore.isAuthenticated">
             <span class="nav-link text-primary fw-semibold">
               <i class="bi bi-person-circle me-1"></i>
               {{ authStore.user?.name }}
@@ -88,6 +103,15 @@ const navbarRef = ref(null)
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 30
+}
+
+const closeNavbar = () => {
+  const navbarToggler = document.querySelector('.navbar-toggler')
+  const navbarCollapse = document.getElementById('navbarNav')
+  
+  if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+    navbarToggler?.click()
+  }
 }
 
 onMounted(() => {
