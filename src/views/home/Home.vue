@@ -13,13 +13,13 @@
       </p>
 
       <div class="search-bar input-group shadow-lg rounded-pill overflow-hidden mx-auto mx-lg-0" style="max-width: 500px; border: 2px solid rgba(212, 175, 55, 0.4); background: rgba(26, 29, 36, 0.6);">
-        <span class="input-group-text bg-transparent border-0 ps-3 text-accent">
-          <i class="bi bi-search fs-5"></i>
+        <span class="input-group-text bg-transparent border-0 ps-2 ps-md-3 text-accent">
+          <i class="bi bi-search fs-6 fs-md-5"></i>
         </span>
         <input
           v-model="searchValue"
           type="text"
-          class="form-control border-0 py-3 bg-transparent text-light fs-6"
+          class="form-control border-0 py-2 py-md-3 bg-transparent text-light search-input"
           placeholder="Search your favorite watch..."
         />
       </div>
@@ -36,7 +36,7 @@
 
     <!-- 🕰️ PRODUCT COLLECTION -->
     <section id="product-list" class="container-lg py-3">
-      <div class="text-center mb-4 py-3">
+      <div class="text-center mb-4">
         <h2 class="display-6 fw-bold text-light">Discover Our Collection</h2>
       </div>
       
@@ -48,7 +48,7 @@
               v-for="(category, i) in categoryList"
               :key="i"
               @click="selectedCategory = category"
-              class="btn category-btn fw-semibold px-3 py-2 rounded-pill"
+              class="btn category-btn fw-semibold px-2 px-md-3 py-1 py-md-2 rounded-pill btn-sm btn-md-normal"
               :class="{ active: selectedCategory === category }"
             >
               {{ category }}
@@ -58,7 +58,7 @@
           <!-- Sort Dropdown -->
           <div class="dropdown">
             <button
-              class="btn sort-btn px-3 py-2 rounded-pill d-flex align-items-center gap-2"
+              class="btn sort-btn px-2 px-md-3 py-1 py-md-2 rounded-pill d-flex align-items-center gap-2 btn-sm btn-md-normal"
               type="button"
               data-bs-toggle="dropdown"
             >
@@ -186,6 +186,9 @@ const filteredProductList = computed(() =>{
   max-width: 500px;
   backdrop-filter: blur(10px);
 }
+.search-input {
+  font-size: 0.85rem;
+}
 .form-control::placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
@@ -201,12 +204,25 @@ const filteredProductList = computed(() =>{
   box-shadow: none;
 }
 
+@media (min-width: 768px) {
+  .search-input {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .search-input {
+    font-size: 1rem;
+  }
+}
+
 /* CATEGORY BUTTONS */
 .category-btn {
   background: transparent;
   border: 1px solid var(--color-accent);
   color: var(--color-accent);
   transition: all 0.3s ease;
+  font-size: 0.8rem;
 }
 .category-btn.active,
 .category-btn:hover {
@@ -219,10 +235,26 @@ const filteredProductList = computed(() =>{
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-light);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
 }
 .sort-btn:hover {
   background: var(--color-accent);
   color: #000;
+}
+
+/* Responsive button sizing */
+@media (min-width: 768px) {
+  .category-btn,
+  .sort-btn {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .category-btn,
+  .sort-btn {
+    font-size: 1rem;
+  }
 }
 .text-light-50 {
   color: rgba(255, 255, 255, 0.6);
